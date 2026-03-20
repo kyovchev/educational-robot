@@ -31,8 +31,15 @@ class SerialTransport:
     def connect(self, port: str, baud: int = 1_000_000,
                 timeout: float = 0.1) -> bool:
         try:
-            self._ser = serial.Serial(port, baud, timeout=timeout)
-            time.sleep(0.1)
+            self._ser = serial.Serial()
+            self._ser.port = port
+            self._ser.baudrate = baud
+            self._ser.timeout = timeout
+            self._ser.dtr = False   # must be set before open() to prevent Arduino reset
+            self._ser.rts = False
+            self._ser.open()
+            time.sleep(0.5)             # wait for Arduino to finish booting
+            self._ser.reset_input_buffer()
             return True
         except Exception as e:
             print(f"[SerialTransport] Connect error: {e}")
@@ -66,32 +73,24 @@ class SerialTransport:
 
 # ─────────────────────────────────────────────────────────────────────────────
 class TcpTransport:
-    """Wi-Fi TCP transport — connects to an ESP32 running a raw TCP bridge.
+    """Wi-Fi TCP transport — connects to an ESP32 running a raw TCP bridge."""
 
-    The ESP32 firmware just needs to forward bytes between the TCP socket
-    and the UART connected to the servos (e.g. using WiFiServer on port 8888).
-
-    Framing note: no framing is added — bytes are sent/received raw,
-    identical to how the serial transport behaves.
-    """
-
-    DEFAULT_PORT    = 8888
-    RECV_TIMEOUT    = 0.1   # seconds — matches serial timeout
+    DEFAULT_PORT = 8888
+    RECV_TIMEOUT = 0.1
 
     def __init__(self):
         self._sock:      Optional[socket.socket] = None
-        self._host:      str  = ""
-        self._tcp_port:  int  = self.DEFAULT_PORT
+        self._host:      str = ""
+        self._tcp_port:  int = self.DEFAULT_PORT
 
     def connect(self, host: str, port: int = DEFAULT_PORT,
                 timeout: float = 3.0) -> bool:
         try:
-            self._host     = host
+            self._host = host
             self._tcp_port = port
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.settimeout(timeout)
             sock.connect((host, port))
-            # switch to short timeout for normal operation (like serial timeout)
             sock.settimeout(self.RECV_TIMEOUT)
             self._sock = sock
             return True
@@ -138,7 +137,6 @@ class TcpTransport:
         return buf
 
     def reset_input_buffer(self):
-        """Drain any pending bytes from the socket receive buffer."""
         if not self._sock:
             return
         try:
