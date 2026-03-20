@@ -379,7 +379,7 @@ class StsRobotAPI:
                 self._wait_for_motion(kwargs.get("timeout", 10.0),
                                       joint_indices=[idx])
         else:
-            src = angles if angles is not None else []
+            src = angle if angle is not None else []
             if len(src) < NUM_ARM_JOINTS:
                 print("[StsRobotAPI] Need 6 angles.")
                 return CODE_ERROR
@@ -600,7 +600,7 @@ class StsRobotAPI:
         # rough mapping: 4096 steps = 360°, arm link ~150mm → 1 step ≈ 0.13 mm
         steps = max(1, int(speed_mm_s / 0.13))
         for jcfg in self._cfg.joints[:NUM_ARM_JOINTS]:
-            jcfg.speed = min(steps, 4095)
+            jcfg.speed = min(steps, 256)
 
     def _wait_for_motion(self, timeout: float = 10.0,
                          settle_time: float = 0.10,
