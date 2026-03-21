@@ -597,10 +597,8 @@ class StsRobotAPI:
 
     def _apply_speed(self, speed_mm_s: float):
         """Convert mm/s to servo speed steps and apply to all arm joints."""
-        # rough mapping: 4096 steps = 360°, arm link ~150mm → 1 step ≈ 0.13 mm
-        steps = max(1, int(speed_mm_s / 0.13))
         for jcfg in self._cfg.joints[:NUM_ARM_JOINTS]:
-            jcfg.speed = min(steps, 256)
+            jcfg.speed = max(int(speed_mm_s), 4000)
 
     def _wait_for_motion(self, timeout: float = 10.0,
                          settle_time: float = 0.10,
