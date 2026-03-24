@@ -2,6 +2,8 @@
 
 This repository contains files for the development of modular robotic platform.
 
+The platform is based on the well-known Feetech STS3215 smart servo motors.
+
 Different constructions can be built by using the following building blocks:
 
 - 15 mm spacer (1);
@@ -23,7 +25,6 @@ Configurations with 4, 5 and 6 degrees of freedom in a CAD environment are shown
 
 ![4, 5, 6 DOF configurations](./Docs/Fig.%203.jpg)
 
-
 Different configurations with 6 DOF in a CAD environment are shown in the next figure:
 
 ![6 DOF configurations](./Docs/Fig.%204.jpg)
@@ -32,17 +33,21 @@ The next image shows an assembled robot with 6 degrees of freedom and its kinema
 
 ![6 DOF robot](./Docs/Fig.%205.jpg)
 
+The next image shows the control box of the robot. For the control of the robot an Arduino Mega 2560 (A) is used. for the communication with the servo motors a dedicated Serial Bus Servo Driver Board (B) is connected to a UART port of the Arduino. An additional 25W DC-DC Power Module (C) is added to the control box for providing stable 5V output for the end effector and if needed also for the Arduino.
+
+![Control box](./Docs/Fig.%206.jpg)
+
 The next image shows the successfully pressed button by the robot. This experiment was intended to show that the robot is capable of interacting with real-world objects.
 
-![Button press](./Docs/Fig.%207.jpg)
+![Button press](./Docs/Fig.%208.jpg)
 
 The next image shows the successful execution of the circuit probing task of the Task Board v2023: [https://github.com/peterso/robotlearningblock](https://github.com/peterso/robotlearningblock). This experiment was intended to show that the robot has a successful repeatability of its movement execution in real tasks.
 
-![Circuit probing task](./Docs/Fig.%208.jpg)
+![Circuit probing task](./Docs/Fig.%209.jpg)
 
 The next image shows frames from the process of the execution of a task to pick up a bottle lying in a horizontal position and place it in another place, but this time in a vertical position. The position of picking up the bottle is determined by a computer vision system, which provides spatial coordinates. They are the input for the inverse kinematics problem. The solution of the inverse kinematics is used as input to the robot. The robot did extremely well in this task considering the design and the gear backlash of the very cost-effective hobby servo motors.
 
-![Pick and place](./Docs/Fig.%209.jpg)
+![Pick and place](./Docs/Fig.%2010.jpg)
 
 ## Videos
 
