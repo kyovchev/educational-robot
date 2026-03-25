@@ -1,4 +1,4 @@
-# Modular Extensible Cobot for Human-Centered Operations (MECHO)
+# MECHO: Modular Extensible Cobot for Human-Centered Operations
 
 This repository contains files for the development of modular robotic arm platform.
 
