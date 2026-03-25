@@ -10,7 +10,7 @@ The platform is based on the well-known Feetech STS3215-12V smart servo motors: 
 
 It was also tested with Herkulex DRS-0101, but they have requirement for 7.5V power supply and encoder with a lower resolution. Also, the Dynamixel AX-12A was considered, but the dimensions were not suitable for the application. The different motors are shown in the following image:
 
-[![Servo Motors](./Docs/thumbnails/1_240.jpg)](./Docs/images/1.jpg)
+[![Servo Motors](./Docs/thumbnails/1_320.jpg)](./Docs/images/1.jpg)
 
 Different constructions can be built by using the following building blocks:
 
@@ -25,7 +25,7 @@ Different constructions can be built by using the following building blocks:
 
 The building blocks are shown in the following image:
 
-![Building blocks](./Docs/images/2.jpg)
+[![Building blocks](./Docs/thumbnails/2_320.jpg)](./Docs/images/2.jpg)
 
 During assembly, the servomotor is attached to the motor input housing (4) of the actuator, then the actuator output part (5) is placed on top. Those two parts are held together by 6mm bearing balls (7). They are inserted through the technical holes. This ensures the attachment of the input and output parts of the actuator to each other and reduces the stress on the motor internals. It is recommended to grease the ball channel for smoother movement and to reduce wear of the parts. Thanks to the balls, the robot links are also supported by them, and not only by the servo motors. Then the output part of the actuator (5) is attached to the servo horn with bolts. The robot units are built from the remaining parts (components (1), (2) and (3)) and then attached to the input or output part of the assembled actuators with M3 bolts. M3 nuts are built into the actuator parts to prevent multiple assembly and disassembly of the robot. Typically, 3D printed parts use specialized threaded inserts, but they require a specialized assembly tool, which is not compatible with the goal of a cost-effective and widely available platform, so standard M3 nuts were chosen to be used. In addition to these parts and parts for the base (6) and (8), also a robotic gripper must be printed.
 
@@ -45,7 +45,7 @@ For the robotic gripper the Micro Servo Parallel Gripper by Techniccontroller is
 
 The next image shows the control box of the robot. For the control of the robot an [Arduino Mega 2560 board (A)](https://store.arduino.cc/products/arduino-mega-2560-rev3) is used. for the communication with the servo motors a dedicated [Serial Bus Servo Driver Board (B)](https://www.dfrobot.com/product-3002.html) is connected to a UART port of the Arduino. An additional [25W DC-DC Power Module (C)](https://www.dfrobot.com/product-752.html) is added to the control box for providing stable 5V output for the end effector and if needed also for the Arduino.
 
-![Control box](./Docs/images/6.jpg)
+[![Control box](./Docs/thumbnails/6_320.jpg)](./Docs/images/6.jpg)
 
 The next image shows the successfully pressed button by the robot. This experiment was intended to show that the robot is capable of interacting with real-world objects.
 
