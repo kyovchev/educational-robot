@@ -10,7 +10,7 @@ The platform is based on the well-known Feetech STS3215-12V smart servo motors: 
 
 It was also tested with Herkulex DRS-0101, but they have requirement for 7.5V power supply and encoder with a lower resolution. Also, the Dynamixel AX-12A was considered, but the dimensions were not suitable for the application. The different motors are shown in the following image:
 
-![Servo Motors](./Docs/images/1.jpg)
+[![Servo Motors](./Docs/thumbnails/1_240.jpg)](./Docs/images/1.jpg)
 
 Different constructions can be built by using the following building blocks:
 
