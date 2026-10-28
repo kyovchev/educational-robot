@@ -55,12 +55,12 @@ In the folder [Kinematics](./Kinematics/) you will find a useful example Jupyter
 
 ## Software
 
-The folder [Software](./Software/) contains useful Python packages and application for the control of the robot when STS3215 servo motors are used. 
+The folder [Software](./Software/) contains useful Python and ROS 2 packages and application for the control of the robot when STS3215 servo motors are used. 
 
-You can run the control software with the following commands:
+You can run the Python control app software with the following commands:
 
 ```bash
-cd Software
+cd Software/Python
 python app.py
 ```
 
@@ -68,9 +68,11 @@ python app.py
 
 It is still under active development.
 
-There are also `robot_api` and `robot_arm` python packages which can be installed locally and used for coding python programs for the control of the robot. The packages can be installed locally in editable mode with: `pip install -e .`. An example program can be found in [./Software/test_api.py](./Software/test_api.py). This API is similar to the Python API for the commercial xArm cobots: [https://github.com/xArm-Developer/xArm-Python-SDK](https://github.com/xArm-Developer/xArm-Python-SDK).
+There are also `robot_api` and `robot_arm` python packages which can be installed locally and used for coding python programs for the control of the robot. The packages can be installed locally in editable mode with: `pip install -e .`. An example program can be found in [./Software/Python/test_api.py](./Software/Python/test_api.py). This API is similar to the Python API for the commercial xArm cobots: [https://github.com/xArm-Developer/xArm-Python-SDK](https://github.com/xArm-Developer/xArm-Python-SDK).
 
-You can also find the firmware for the Arduino board in the folder [./Software/arduino_controller/](./Software/arduino_controller/). This firware allows you to use a regular PWM (micro) servo for the gripper. The firmware will assign to it a virtual ID 7 and be able to control it with the same library and commands as those for the other smart STS3215-12V servos. The library for the servos is described in [https://github.com/vassar-robotics/feetech-servo-sdk](https://github.com/vassar-robotics/feetech-servo-sdk).
+You can also find the firmware for the Arduino board in the folder [./Software/Arduino/arduino_controller/](./Software/Arduino/arduino_controller/). This firware allows you to use a regular PWM (micro) servo for the gripper. The firmware will assign to it a virtual ID 7 and be able to control it with the same library and commands as those for the other smart STS3215-12V servos. The library for the servos is described in [https://github.com/vassar-robotics/feetech-servo-sdk](https://github.com/vassar-robotics/feetech-servo-sdk).
+
+The ROS 2 packages with configured MoveIt can be found in the folder [./Software/ROS2/](./Software/ROS2/). The joystick control can be started with the script [./Software/ROS2/scripts/run_joy.py](./Software/ROS2/scripts/run_joy.py).
 
 ## License
 

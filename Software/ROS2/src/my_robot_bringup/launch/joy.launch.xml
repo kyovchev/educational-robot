@@ -1,0 +1,33 @@
+<launch>
+    <include file="$(find-pkg-share my_robot_bringup)/launch/common.launch.xml" />
+
+    <node pkg="joy" exec="joy_node" />
+
+    <node pkg="my_robot_commander_cpp" exec="commander" />
+
+    <node pkg="my_robot_gripper_commander" exec="servo_commander">
+        <param name="idle_timeout" value="20.0"/>
+    </node>
+
+    <node pkg="my_robot_joy_commander" exec="joy_commander" />
+
+    <node pkg="my_robot_web_bridge" exec="my_robot_web_bridge" />
+
+    <!-- Web Video Server Node -->
+    <node pkg="web_video_server" exec="web_video_server" name="web_video_server" output="screen">
+        <param name="use_sim_time" value="true"/>
+        <param name="port" value="9090"/>
+    </node>
+
+    <!-- USB Camera Node -->
+    <node pkg="usb_cam" exec="usb_cam_node_exe" name="usb_cam" output="screen"
+        respawn="true" respawn_delay="2.0">
+        <param name="video_device" value="/dev/video0"/>
+        <param name="pixel_format" value="mjpeg2rgb"/>
+        <param name="io_method" value="mmap"/>
+        <param name="image_width" value="640"/>
+        <param name="image_height" value="480"/>
+        <param name="framerate" value="30.0"/>
+        <param name="camera_frame_id" value="camera_link"/>
+    </node>
+</launch>

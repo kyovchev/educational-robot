@@ -1,0 +1,9 @@
+<launch>
+    <include file="$(find-pkg-share my_robot_bringup)/launch/common.launch.xml" />
+
+    <node pkg="rviz2" 
+          exec="rviz2"
+          args="-d $(find-pkg-share my_robot_bringup)/rviz/rviz_config.rviz"
+          output="screen"
+    />
+</launch>

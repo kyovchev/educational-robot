@@ -1,0 +1,5 @@
+<launch>
+    <include file="$(find-pkg-share my_robot_bringup)/launch/common.launch.xml" />
+
+    <include file="$(find-pkg-share my_robot_moveit_config)/launch/moveit_rviz.launch.py" />
+</launch>
