@@ -4,7 +4,10 @@
 Publishes  : joint_command (JointsCommand), pose_command (PoseCommand),
              gripper_position (std_msgs/Int32)
 Subscribes : is_moving (std_msgs/Bool), joy (sensor_msgs/Joy)
-Current end-effector position is read from TF (base_frame -> ee_frame).
+
+Nudges are accumulated on an internal commanded target, so positions stay
+consistent and don't drift. TF (base_frame -> ee_frame) is only read to seed
+the target when it is unknown (e.g. after going Home).
 
 Controls:
   L1 (button 6)            toggle Start / Home
@@ -33,7 +36,7 @@ class JoyCommanderNode(Node):
         self.base_frame = self.declare_parameter("base_frame", "base_link").value
         self.ee_frame = self.declare_parameter("ee_frame", "tool0").value
         self.step = self.declare_parameter("step", 0.01).value
-        self.deadzone = self.declare_parameter("deadzone", 0.3).value
+        self.deadzone = self.declare_parameter("deadzone", 0.5).value
         self.home_joints = list(
             self.declare_parameter("home_joints", [0.0] * 6).value  # adjust to your "Home"
         )
@@ -59,8 +62,10 @@ class JoyCommanderNode(Node):
         self.l1_prev = False
         self.last_sent = self.get_clock().now()
         self.gripper_last_sent = int(round(self.gripper_pos))
+        # Commanded Cartesian target [x, y, z]; None = unknown (seed from TF)
+        self.target = None
 
-        # ---- TF ----
+        # ---- TF (only used to seed the target) ----
         self.tf_buffer = tf2_ros.Buffer()
         self.tf_listener = tf2_ros.TransformListener(self.tf_buffer, self)
 
@@ -89,6 +94,10 @@ class JoyCommanderNode(Node):
             if (self.get_clock().now() - self.last_sent) < Duration(seconds=2.0):
                 return True
             self.awaiting_start = False
+            # The command most likely failed, so the commanded target no longer
+            # reflects reality. Re-seed from TF on the next nudge.
+            self.target = None
+            self.get_logger().warn("Command never started; target will be re-seeded from TF")
         return False
 
     def mark_sent(self):
@@ -106,10 +115,28 @@ class JoyCommanderNode(Node):
         cmd.cartesian_path = bool(cartesian)
         return cmd
 
+    def seed_target_from_tf(self) -> bool:
+        """Read the current EE position from TF once, to initialise the target."""
+        try:
+            t = self.tf_buffer.lookup_transform(
+                self.base_frame, self.ee_frame, rclpy.time.Time()
+            )
+        except TransformException as e:
+            self.get_logger().warn(f"TF lookup failed: {e}", throttle_duration_sec=2.0)
+            return False
+        self.target = [
+            t.transform.translation.x,
+            t.transform.translation.y,
+            t.transform.translation.z,
+        ]
+        return True
+
     def send_start_pose(self):
         self.pose_pub.publish(
             self.make_pose(self.start_x, self.start_y, self.start_z, False)
         )
+        # Exactly the commanded position, no TF involved
+        self.target = [self.start_x, self.start_y, self.start_z]
         self.at_start_pose = True
         self.mark_sent()
         self.get_logger().info("Sent: Start pose")
@@ -122,6 +149,7 @@ class JoyCommanderNode(Node):
         cmd.data = [float(j) for j in self.home_joints]
         self.joint_pub.publish(cmd)
         self.at_start_pose = False
+        self.target = None  # joint-space move: Cartesian position unknown
         self.mark_sent()
         self.get_logger().info("Sent: Home joints")
 
@@ -195,25 +223,19 @@ class JoyCommanderNode(Node):
         if not (mx or my or mz):
             return
 
-        try:
-            t = self.tf_buffer.lookup_transform(
-                self.base_frame, self.ee_frame, rclpy.time.Time()
-            )
-        except TransformException as e:
-            self.get_logger().warn(f"TF lookup failed: {e}", throttle_duration_sec=2.0)
+        # Seed from TF only if the commanded target is unknown
+        if self.target is None and not self.seed_target_from_tf():
             return
 
-        x = t.transform.translation.x
-        y = t.transform.translation.y
-        z = t.transform.translation.z
-
+        # Accumulate on the commanded target (not on the measured position)
         if mx:
-            x += ax * self.step
+            self.target[0] += ax * self.step
         if my:
-            y += ay * self.step
+            self.target[1] += ay * self.step
         if mz:
-            z += az * self.step
+            self.target[2] += az * self.step
 
+        x, y, z = self.target
         self.get_logger().info(f"Target position: x={x:.3f}, y={y:.3f}, z={z:.3f}")
 
         # Small straight-line nudge -> cartesian path
