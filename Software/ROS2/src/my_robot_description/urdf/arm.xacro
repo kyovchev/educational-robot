@@ -1,19 +1,42 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-<link name="base_link">
-    <inertial>
-      <origin xyz="0 0 0.0325" rpy="0 0 0"/>
-      <mass value="0.15"/>
-      <inertia ixx="1e-4" ixy="0" ixz="0" iyy="1e-4" iyz="0" izz="1e-4"/>
-    </inertial>
+  <link name="base_link">
     <visual>
-      <origin xyz="0 0 0.0325" rpy="0 0 0"/>
-      <geometry><cylinder radius="0.04" length="0.065"/></geometry>
-      <material name="body"/>
+      <origin xyz="0 0 -0.004" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.04" length="0.008"/></geometry>
+      <material name="base_plate"/>
     </visual>
     <collision>
+      <origin xyz="0 0 -0.004" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.05 0.05 0.008" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="link0">
+    <inertial>
+      <mass value="0.10"/>
       <origin xyz="0 0 0.0325" rpy="0 0 0"/>
-      <geometry><cylinder radius="0.04" length="0.065"/></geometry>
+      <inertia ixx="1e-4" ixy="0" ixz="0" iyy="1e-4" iyz="0" izz="5e-5"/>
+    </inertial>
+    <!-- Column cylinder -->
+    <visual>
+      <origin xyz="0 0 0.0325" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.012" length="0.065"/></geometry>
+      <material name="teal"/>
+    </visual>
+    <!-- Joint0 disk (top of column) -->
+    <visual>
+      <origin xyz="0 0 0.065" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.04" length="0.010"/></geometry>
+      <material name="joint_disk"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.035" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.036 0.036 0.07" />
+      </geometry>
     </collision>
   </link>
 
@@ -173,10 +196,26 @@
     </collision>
   </link>
 
-  <link name="tool0"/>
+  <link name="tool0">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.008"/></geometry>
+      <material name="ee_ball"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><sphere radius="0.008"/></geometry>
+    </collision>
+  </link>
 
-  <joint name="joint1" type="revolute">
+  <joint name="base_to_link0" type="fixed">
     <parent link="base_link"/>
+    <child link="link0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint0" type="revolute">
+    <parent link="link0"/>
     <child link="link1"/>
     <origin xyz="0 0 0.065" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
@@ -184,7 +223,7 @@
     <dynamics damping="0.05" friction="0.01"/>
   </joint>
 
-  <joint name="joint2" type="revolute">
+  <joint name="joint1" type="revolute">
     <parent link="link1"/>
     <child link="link2"/>
     <origin xyz="0 0.041 0.042" rpy="-1.570796 0 0"/>
@@ -193,7 +232,7 @@
     <dynamics damping="0.05" friction="0.01"/>
   </joint>
 
-  <joint name="joint3" type="revolute">
+  <joint name="joint2" type="revolute">
     <parent link="link2"/>
     <child link="link3"/>
     <origin xyz="0 -0.128 0.001" rpy="3.141593 0 0"/>
@@ -202,7 +241,7 @@
     <dynamics damping="0.05" friction="0.01"/>
   </joint>
 
-  <joint name="joint4" type="revolute">
+  <joint name="joint3" type="revolute">
     <parent link="link3"/>
     <child link="link4"/>
     <origin xyz="0.041 0.083 0.042" rpy="-1.570796 0 -1.570796"/>
@@ -211,7 +250,7 @@
     <dynamics damping="0.05" friction="0.01"/>
   </joint>
 
-  <joint name="joint5" type="revolute">
+  <joint name="joint4" type="revolute">
     <parent link="link4"/>
     <child link="link5"/>
     <origin xyz="0 0.041 0.042" rpy="-1.570796 0 0"/>
@@ -220,7 +259,7 @@
     <dynamics damping="0.05" friction="0.01"/>
   </joint>
 
-  <joint name="joint6" type="revolute">
+  <joint name="joint5" type="revolute">
     <parent link="link5"/>
     <child link="link6"/>
     <origin xyz="0 -0.041 0.042" rpy="1.570796 0 0"/>
@@ -229,7 +268,7 @@
     <dynamics damping="0.05" friction="0.01"/>
   </joint>
 
-  <joint name="tool0_joint" type="fixed">
+  <joint name="joint6_ee" type="fixed">
     <parent link="link6"/>
     <child link="tool0"/>
     <origin xyz="0 0 0.09" rpy="0 0 3.141593"/>
