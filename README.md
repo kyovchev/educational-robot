@@ -43,9 +43,11 @@ Demonstration of the execution of a task to pick up a bottle lying in a horizont
 
 In the folder [CAD](./CAD/) you can find the source CAD files. They were delevoped by using the FreeCAD software: [https://www.freecad.org/](https://www.freecad.org/).
 
-Differenr robot configurations with 4, 5 or 6 degrees of freedom in a CAD environment can be found in the folder [CAD/Assemblies](./CAD/Assemblies/).
+Different robot configurations with 4, 5 or 6 degrees of freedom in a CAD environment can be found in the folder [CAD/Assemblies](./CAD/Assemblies/).
 
 In the folder [STLs](./STLs/) you can find the exported STL files which can be 3D printed.
+
+Currently, there are two versions. The version V1 is with a cross section of cirle with 80 mm in diameter. The version V2 is still work in progress. It will be a new slimmer version of the robot with a diameter of 50 mm and with less number of parts to reduce the overall weight.
 
 ## Kinematics
 
