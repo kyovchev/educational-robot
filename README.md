@@ -47,7 +47,9 @@ Different robot configurations with 4, 5 or 6 degrees of freedom in a CAD enviro
 
 In the folder [STLs](./STLs/) you can find the exported STL files which can be 3D printed.
 
-Currently, there are two versions. The version V1 is with a cross section of cirle with 80 mm in diameter. The version V2 is still work in progress. It will be a new slimmer version of the robot with a diameter of 50 mm and with less number of parts to reduce the overall weight.
+Currently, there are two versions. The version V1 is with a cross section of cirle with 80 mm in diameter. The version V2 is still work in progress. It will be a new slimmer version of the robot with a diameter of 50 mm and with less number of parts to reduce the overall weight. Robot configuration with 6 degrees of freedom is shown in the following figure.
+
+![Robot V2 6 DOF](./images/RobotV2_6DOF.png)
 
 ## Kinematics
 
