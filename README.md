@@ -6,7 +6,7 @@ The platform is based on the well-known Feetech STS3215-12V smart servo motors: 
 
 It was also tested with Herkulex DRS-0101, but they have requirement for 7.5V power supply and encoder with a lower resolution. Also, the Dynamixel AX-12A was considered, but the dimensions were not suitable for the application.
 
-Different constructions can be built by using the following parts:
+Different constructions with a circular cross section with a diameter of 80 mm can be built by using the following V1 parts:
 
 1. Actuator motor housing;
 2. Actuator output ring;
@@ -19,13 +19,19 @@ Different constructions can be built by using the following parts:
 9. Gripper mounting bracket;
 10. Tool mounting bracket.
 
-The parts are shown in the following image:
+The version V1 parts are shown in the following image:
 
-[![Parts](./images/parts_320.jpg)](./images/parts.jpg)
+[![Parts V1](./images/parts_320.jpg)](./images/parts.jpg)
+
+V2 is currently almost finished. It will require less parts for its joint. The diameter of the cross section of V2 is 50 mm. The V2 will require only a single type of bolts M3x16 mm and M3 hex nuts.
+
+For the bearing assembly of each actuator you need 6 mm plastic (airsoft) balls.
 
 For the robotic gripper the Micro Servo Parallel Gripper by Techniccontroller is used: [https://grabcad.com/library/micro-servo-parallel-gripper-1](https://grabcad.com/library/micro-servo-parallel-gripper-1).
 
 Currently, the control box of the robot. For the control of the robot an [Arduino Mega 2560 board](https://store.arduino.cc/products/arduino-mega-2560-rev3) is used. for the communication with the servo motors a dedicated [Serial Bus Servo Driver Board](https://www.dfrobot.com/product-3002.html) is connected to a UART port of the Arduino. An additional [25W DC-DC Power Module](https://www.dfrobot.com/product-752.html) is added to the control box for providing stable 5V output for the end effector and if needed also for the Arduino.
+
+Also, you can find ROS 2 packages and you can use a Raspberry Pi board to control the robot.
 
 The robot assembled in a 6 degree of freedom configuration and the control box are shown in the following image.
 
