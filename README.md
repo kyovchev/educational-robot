@@ -58,6 +58,11 @@ The bearing assembly of each actuator requires 6 mm plastic (airsoft) balls. The
 
 [![Actuator V2](./images/V2/actuator_320.jpg)](./images/V2/actuator.jpg)
 
+
+Different assembled configuration with 5 and 6 degrees of freedom are shown in the following figure.
+
+[![Configs V2](./images/V2/configs_320.jpg)](./images/V2/configs.jpg)
+
 ## Robotic Gripper
 
 For the robotic gripper the Micro Servo Parallel Gripper by Techniccontroller is used: [https://grabcad.com/library/micro-servo-parallel-gripper-1](https://grabcad.com/library/micro-servo-parallel-gripper-1).
